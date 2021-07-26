@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.*;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,4 +30,52 @@ class UserRepositoryTest {
 
         userRepository.save(user);
     }
+    @Test
+    void select(){
+       /* System.out.println("findByEmail : " + userRepository.findByEmail("pinggu@naver.com"));
+        System.out.println("getByEmail : " + userRepository.getByEmail("pinggu@naver.com"));
+        System.out.println("readByEmail : " + userRepository.readByEmail("pinggu@naver.com"));
+        System.out.println("queryByEmail : " + userRepository.queryByEmail("pinggu@naver.com"));
+        System.out.println("searchByEmail : " + userRepository.searchByEmail("pinggu@naver.com"));
+        System.out.println("streamByEmail : " + userRepository.streamByEmail("pinggu@naver.com"));
+        System.out.println("findUserByEmail : " + userRepository.findUserByEmail("pinggu@naver.com"));
+        System.out.println("findSomethingByEmail : " + userRepository.findSomethingByEmail("pinggu@naver.com"));
+        System.out.println("findFirst1ByName : " + userRepository.findFirst1ByName("pinggu"));
+        System.out.println("findTop1ByName : " + userRepository.findTop1ByName("pinggu"));
+        System.out.println("findLast1ByName : " + userRepository.findLast1ByName("pinggu"));*/
+
+        System.out.println("findByEmailAndName : " + userRepository.findByEmailAndName("pinggu@naver.com", "pinggu"));
+        System.out.println("findByEmailOrName : " + userRepository.findByEmailOrName("pinggu@naver.com", "dubu"));
+        System.out.println("findByCreatedAtAfter : " + userRepository.findByCreatedAtAfter(LocalDateTime.now().minusDays(1L)));
+        System.out.println("findByIdAfter : " + userRepository.findByIdAfter(4L));
+
+        //보다 큰 것
+        System.out.println("findByCreatedAtGreaterThan : " + userRepository.findByCreatedAtGreaterThan(LocalDateTime.now().minusDays(1L)));
+
+        //크거나 같은 것
+        System.out.println("findByCreatedAtGreaterThanEqual : " + userRepository.findByCreatedAtGreaterThanEqual(LocalDateTime.now().minusDays(1L)));
+
+        System.out.println("findByCreatedAtBetween :" + userRepository.findByCreatedAtBetween(LocalDateTime.now().minusDays(1L), LocalDateTime.now().plusDays(1L)));
+        System.out.println("findByIdBetween : " + userRepository.findByIdBetween(1L, 3L));
+        System.out.println("findByIdGreaterThanEqualAndIdLessThanEqual : " + userRepository.findByIdGreaterThanEqualAndIdLessThanEqual(1L, 3L));
+
+        System.out.println("findByIdIsNotNull : " + userRepository.findByIdIsNotNull());
+        //System.out.println("findByAddressIsNotEmpty : " + userRepository.findByAddressIsNotEmpty());
+        System.out.println("findByNameIn : " + userRepository.findByNameIn(Lists.newArrayList("pinggu", "hyong")));
+        System.out.println("findByNameStartingWith : " + userRepository.findByNameStartingWith("ping"));
+        System.out.println("findByNameEndingWith : " + userRepository.findByNameEndingWith("gu"));
+        System.out.println("findByNameContains : " + userRepository.findByNameContains("ng"));
+        System.out.println("findByNameLike : " + userRepository.findByNameLike("%" + "ping" + "%"));
+
+    }
+
+    @Test
+    void pagingAndSoringTest(){
+        System.out.println("findTop1ByName : " + userRepository.findTop1ByName("pinggu"));
+        System.out.println("findTopByNameOrderByIdDesc : " + userRepository.findTopByNameOrderByIdDesc("pinggu"));
+        System.out.println("findFirstByNameOrderByIdDescEmailAsc : " + userRepository.findFirstByNameOrderByIdDescEmailAsc("pinggu"));
+        System.out.println("findFirstByNameWithSortParams : " + userRepository.findFirstByName("pinggu", Sort.by(Sort.Order.desc("id"), Sort.Order.asc("email"))));
+        System.out.println("findByNameWithPaging : " + userRepository.findByName("pinggu", PageRequest.of(1, 1, Sort.by(Sort.Order.desc("id")))).getTotalElements());
+    }
+
 }
