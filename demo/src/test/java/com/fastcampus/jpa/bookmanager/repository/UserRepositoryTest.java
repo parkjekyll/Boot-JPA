@@ -20,6 +20,8 @@ import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatc
 class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserHistoryRepository userHistoryRepository;
 
     @Test
     @Transactional
@@ -102,6 +104,59 @@ class UserRepositoryTest {
 
         userRepository.findAll().forEach(System.out::println);
         System.out.println(userRepository.findRawRecord().get("gender"));
+    }
+    @Test
+    void listenerTest() {
+        User user = new User();
+        user.setEmail("ping@naver.com");
+        user.setName("ping");
+
+        userRepository.save(user);
+
+        User user2 = userRepository.findById(1L).orElseThrow(RuntimeException::new);
+        user2.setName("ping");
+
+        userRepository.save(user2);
+
+        userRepository.deleteById(4L);
+    }
+    @Test
+    void prePersistTest() {
+        User user = new User();
+        user.setEmail("ping@naver.com");
+        user.setName("ping");
+//        user.setCreatedAt(LocalDateTime.now());
+//        user.setUpdatedAt(LocalDateTime.now());
+
+        userRepository.save(user);
+
+        System.out.println(userRepository.findByEmail("ping@naver.com"));
+    }
+
+    @Test
+    void preUpdateTest() {
+        User user = userRepository.findById(1L).orElseThrow(RuntimeException::new);
+
+        System.out.println("as-is : " + user);
+
+        user.setName("ping");
+        userRepository.save(user);
+
+        System.out.println("to-be : " + userRepository.findAll().get(0));
+    }
+    @Test
+    void userHistoryTest() {
+        User user = new User();
+        user.setEmail("ping-new@naver.com");
+        user.setName("ping-new");
+
+        userRepository.save(user);
+
+        user.setName("ping-new-new");
+
+        userRepository.save(user);
+
+        userHistoryRepository.findAll().forEach(System.out::println);
     }
 
 }
