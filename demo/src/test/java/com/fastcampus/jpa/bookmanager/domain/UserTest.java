@@ -14,7 +14,7 @@ class UserTest{//모든 자바클래스는 오브젝트를 상속 받는다.
         user.setEmail("email@email.com");
         user.setName("name");
 
-        User user1 = new User(null,"name", "email.email.com", LocalDateTime.now(), LocalDateTime.now(), null);
+       // User user1 = new User(null,"name", "email.email.com", LocalDateTime.now(), LocalDateTime.now(), null);
 
         User.builder().name("name").email("email@naver.com").build();
 

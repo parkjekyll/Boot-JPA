@@ -14,6 +14,7 @@ import java.util.List;
 @Data // getter, setter
 @Builder // 객체를 생성하고 값을 주입해줌.
 @Entity
+@Table(name = "user", indexes = {@Index(columnList = "name")}, uniqueConstraints = {@UniqueConstraint(columnNames={"email"})})
 public class User {
 
     @Id
@@ -26,11 +27,20 @@ public class User {
     @NonNull
     private String email;
 
+    @Enumerated(value = EnumType.STRING)
+    private Gender gender;
+
+    @Column(updatable = false)
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    private List<Address> address;
+
+
+    /*@Transient //영속성 컨텍스트에서 제외 실질적으로 디비에 저장 X
+    private String testData;*/
+
+    /*@OneToMany(fetch = FetchType.EAGER)
+    private List<Address> address;*/
 
 }
