@@ -10,3 +10,8 @@ ch4.Entity 기본속성
 
 ch5.Entity Listener
 
+ch6.연관관계
+
+ch7.트랜잭션
+
+
