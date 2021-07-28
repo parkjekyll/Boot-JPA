@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.endsWith;
 
 @SpringBootTest
+@Transactional
 class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
